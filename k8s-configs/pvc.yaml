@@ -1,0 +1,17 @@
+# PersistentVolumeClaim 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-storage-pvc
+  labels:
+    app: mnist
+spec:
+  
+  accessModes:
+    - ReadWriteOnce
+
+  storageClassName: standard-rwo
+  resources:
+    requests:
+
+      storage: 1Gi

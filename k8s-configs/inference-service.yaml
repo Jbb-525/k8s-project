@@ -1,0 +1,21 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mnist-inference-service
+  labels:
+    app: mnist
+    component: inference
+spec:
+  type: LoadBalancer
+
+  selector:
+    app: mnist
+    component: inference
+  ports:
+  - protocol: TCP
+    port: 80         
+    targetPort: 5000 
+    name: http
+
+  sessionAffinity: ClientIP

@@ -1,0 +1,39 @@
+# Job 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mnist-training-job
+  labels:
+    app: mnist
+    component: training
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        app: mnist
+        component: training
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: training
+
+        image: gcr.io/cloudml01/mnist-training:latest
+        imagePullPolicy: Always
+
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+
+        volumeMounts:
+        - name: model-storage
+          mountPath: /mnt/model-storage
+
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc

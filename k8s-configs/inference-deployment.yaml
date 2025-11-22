@@ -1,0 +1,67 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mnist-inference
+  labels:
+    app: mnist
+    component: inference
+spec:
+
+  replicas: 2
+ 
+  selector:
+    matchLabels:
+      app: mnist
+      component: inference
+
+  template:
+    metadata:
+      labels:
+        app: mnist
+        component: inference
+    spec:
+      containers:
+      - name: inference
+       
+        image: gcr.io/cloudml01/mnist-inference:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30  
+          periodSeconds: 10        
+          timeoutSeconds: 5        
+          failureThreshold: 3      
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+        volumeMounts:
+        - name: model-storage
+          mountPath: /mnt/model-storage
+          readOnly: true 
+
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
