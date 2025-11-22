@@ -5,7 +5,7 @@ A complete machine learning deployment project that trains and serves a handwrit
 ## 🎯 Project Overview
 
 This project demonstrates:
-- Training a CNN model on MNIST dataset using PyTorch
+- Training a model on MNIST dataset
 - Containerizing training and inference services with Docker
 - Deploying to Google Kubernetes Engine (GKE) with self-healing capabilities
 - Providing a web interface and REST API for digit recognition
