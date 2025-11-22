@@ -10,8 +10,6 @@ This project demonstrates:
 - Deploying to Google Kubernetes Engine (GKE) with self-healing capabilities
 - Providing a web interface and REST API for digit recognition
 
-**Model Accuracy**: 98.95% on MNIST test set
-
 ## 🏗️ Architecture
 
 ```
